@@ -1,0 +1,82 @@
+\section{Empirical Probability Distributions}
+\label{sect:empirical-prob-dist}
+\begin{enumerate}
+\item After studying \emph{probability theory} in STAT2901, we will focus on
+\emph{statistical inference} in STAT3902: \emph{inference based on
+observations}. In this section we will first focus on the \emph{observations} to
+see how we can ``extract'' information from them.
+\end{enumerate}
+\subsection{Sample of Observations}
+\begin{enumerate}
+\item Much of statistical inference is based on the idea of a \emph{sample}.
+Consider a ``population random variable'' \(X\) with cdf \(F(x)\). Then, a
+(random) \defn{sample} of \(n\) (unrealized) observations from the population
+is a vector of \(n\) \emph{random variables}: \((X_1,\dotsc,X_n)\) where
+\[
+X_1,\dotsc,X_n\iid F(x).
+\]
+\begin{center}
+\begin{tikzpicture}
+\node[draw, violet] () at (0,0.6) {data generating process};
+\node[font=\large, violet] () at (0,0) {underpinning r.v.: \(X\)};
+\draw[violet] (-4,1) rectangle (4,-1);
+\foreach \x in {1,...,8} \draw[-Latex] (-4.5+\x,-0.5) -- (-4.5+\x,-1.5)
+node[below=0.3cm, violet!80!white] {\(X_{\x}\)};
+\node[violet] () at (-6,0) {population:};
+\node[] () at (-6,-1) {generate \faIcon{copy}};
+\node[violet!80!white] () at (-6,-2) {sample:};
+\end{tikzpicture}
+\end{center}
+\begin{intuition}
+Population can be understood as a \emph{data generating process}: Each
+observation in the sample is a (random) datum.
+\end{intuition}
+
+\begin{note}
+The \defn{sample size} of the sample \((X_1,\dotsc,X_n)\) is its number of
+entries: \(n\).
+\end{note}
+\item A sample is \emph{unrealized} in the sense that it contains random
+variables but not the actual observed \emph{values}. Depending on the outcome
+\(\omega\in\Omega\), the actual observed values can differ in multiple
+samplings (collections of samples).
+
+In practice, we can only ``see'' \faIcon{eye} a \emph{realized} sample. However, for
+theoretical purpose, we often work with \emph{unrealized} samples (consisting of
+random variables).
+\end{enumerate}
+
+\subsection{Empirical Cumulative Distribution Function}
+\begin{enumerate}
+\item Given a sample \((X_1,\dotsc,X_n)\), the \defn{empirical cumulative
+distribution function} (cdf) is
+\[
+\widehat{F}_n(x)=\frac{1}{n}\sum_{i=1}^{n}\indicset{X_i\le x}.
+\]
+\begin{remark}
+\item In statistical inference, notation with a hat \(\;\widehat{}\;\) usually
+\emph{estimates}/\emph{approximates} something.
+\item In words, it means
+\[
+\widehat{F}_n(x)=\frac{\text{no.\ of observations \(\le\) \(x\)}}{\text{no.\ of observations}}.
+\]
+\end{remark}
+
+\item Intuitively, the empirical cdf should be somewhat ``close'' to the actual
+cdf, especially if the number of observations \(n\) is large. This is justified
+by the following result:
+\begin{theorem}[Glivenko-Cantelli theorem]
+\label{thm:gilvenko-cantelli}
+Suppose that we have \emph{infinitely many} (unrealized) observations
+\(X_1,X_2,\dotsc\).  For any \(n\in\N\), the vector \((X_1,\dotsc,X_n)\)
+constitutes a sample (of \(n\) observations), and we denote the corresponding
+empirical cdf by \(\widehat{F}_n\). Then, the sequence of empirical cdfs
+\(\{\widehat{F}_{n}\}\) \emph{converges uniformly} to the actual cdf \(F\)
+almost surely (i.e., with probability 1).
+\end{theorem}
+\begin{note}
+Roughly speaking, this suggests that \(\widehat{F}_{n}(x)\) is always within a
+very small region around \(F(x)\) (``very close'') for any \(x\in\R\) (with
+probability 1) when \(n\) is very large.
+\end{note}
+\end{enumerate}
