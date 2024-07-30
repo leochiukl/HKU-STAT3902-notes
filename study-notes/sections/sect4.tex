@@ -1,2 +1,118 @@
 \section{Interval Estimation}
 \label{sect:interval-estimation}
+\begin{enumerate}
+\item In \cref{sect:point-estimation}, we focus on \emph{point estimation},
+which gives a \emph{single value} as an estimate of true parameter \(\theta\).
+Here, we shall focus on \emph{interval estimation} which gives an
+\emph{interval} of ``plausible'' values as an estimate of true parameter
+\(\theta\). It can suggest the amount of \emph{uncertainty} we have in the
+estimation: wider interval \faIcon{arrow-right} more uncertainties involved and
+less ``precise''.
+\end{enumerate}
+\subsection{Confidence Intervals}
+\begin{enumerate}
+\item The core concept in interval estimation is \emph{confidence interval} (CI).
+Given a sample \(\vect{X}=(X_1,\dotsc,X_n)\) collected from the population, a
+\defn{\(100(1-\alpha)\%\) confidence interval for \(\theta\)} is any (random)
+interval \(\mathcal{I}(\vect{X})\) where for every \(\theta\),
+\[
+\prob{\theta\in\mathcal{I}(\vect{X})}=1-\alpha,
+\]
+with \(\alpha\in[0,1]\).
+
+\item To \emph{interpret} a \(100(1-\alpha)\%\) CI \(\mathcal{I}(\vect{X})\),
+we consider a large number of realized confidence intervals
+\(\mathcal{I}(\vect{x})\). Then, approximately \(100(1-\alpha)\%\) of them
+contains the true parameter \(\theta\).
+
+\item Often the CI \(\mathcal{I}(\vect{X})\) takes the form of
+\([L(\vect{X}),U(\vect{X})]\) where \(L\) and \(U\) are functions, and a
+CI of this form is called \defn{two-sided}.
+
+Sometimes, the CI \(\mathcal{I}(\vect{X})\) is instead \defn{one-sided}: taking
+the form of \([L(\vect{X}),\infty)\) or \((-\infty,U(\vect{X})]\).
+\end{enumerate}
+\subsection{Constructing Confidence Intervals}
+\begin{enumerate}
+\item There are three typical approaches for constructing a CI:
+\begin{enumerate}
+\item using \emph{pivotal quantity}
+\item constructing approximated CI based on large sample
+\item inverting hypothesis test (see \cref{sect:hypothesis-testing})
+\end{enumerate}
+The last approach provides some theoretical support on the ``goodness'' of CI.
+Usually, when we have a ``good'' hypothesis test (more details to be discussed
+in \cref{sect:hypothesis-testing}), inverting it would yield a ``good'' CI.
+Indeed, methods based on pivotal quantity often originate from inverting some
+``standard'' hypothesis tests.
+
+\item A \defn{pivotal quantity} is a random variable \(Q=Q(\vect{X},\theta)\)
+whose distribution is free of \(\theta\). Using quantiles of \(Q\), we can
+construct a \(100(1-\alpha)\%\) CI. For example, by writing
+\[
+\ell\le Q(\vect{X},\theta)\le u\iff L(\vect{X})\le \theta\le U(\vect{X})
+\]
+where \(\prob{\ell\le Q\le u}=1-\alpha\), the interval
+\([L(\vect{X}),U(\vect{X})]\) serves as a \(100(1-\alpha)\%\) CI.
+\item To construct approximated CI based on large sample, typically we utilize
+\emph{central limit theorem}.
+
+Consider a sample \(\overline{X}=(X_1,\dotsc,X_n)\) where the common
+distribution has a finite mean \(\mu\) and finite variance \(\sigma^2\). Here,
+we focus on estimating the parameter \(\mu\) using a CI, and for the purpose of
+constructing CI, we shall replace \(\sigma\) by its mle
+\(\widehat{\sigma}=\widehat{\sigma}(\vect{X})\) (as a further ``approximation'').
+
+By central limit theorem,
+\[
+\frac{\sqrt{n}(\overline{X}_n-\mu)}{\widehat{\sigma}}\apxsim N(0,1)
+\]
+when \(n\) is large. Hence, we can use this as an ``approximated pivotal
+quantity'':
+\[
+\prob{-z_{\alpha/2}\le\frac{\sqrt{n}(\overline{X}_n-\mu)}{\widehat{\sigma}}\le z_{\alpha/2}}\approx 1-\alpha,
+\]
+where \(z_{p}\) is the \(p\)th upper quantile of standard normal
+distribution (i.e., \(\prob{Z>z_{p}}=p\) when \(Z\sim N(0,1)\)).
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+domain=-3:3,
+samples=75,
+axis lines=center,
+xmin=-3.5,xmax=3.5,
+ymax=0.5,
+xtick={-2,2}, xticklabels={\(-z_{\alpha/2}\), \(z_{\alpha/2}\)},
+ytick=\empty,
+title={\color{blue}Standard normal pdf \(\phi\)}
+]
+\addplot[blue, thick, name path=A]{(1/sqrt(2*pi))*exp(-x^2/2)};
+\addplot[draw=none, name path=B]{0};
+\addplot[violet, opacity=0.3] fill between[of=A and B, soft clip={domain=-2:2}];
+\addplot[ForestGreen!50!white] fill between[of=A and B, soft clip={domain=-3:-2}];
+\addplot[ForestGreen!50!white] fill between[of=A and B, soft clip={domain=2:3}];
+\node[blue] () at (2,0.3) {\(\phi\)};
+\node[] () at (0,0.1) {area = \(1-\alpha\)};
+\draw[-Latex] (-2.7,0.1) -- (-2.5,0.01)
+node[pos=-0.3]{\(\alpha/2\)};
+\draw[-Latex] (2.7,0.1) -- (2.5,0.01)
+node[pos=-0.3]{\(\alpha/2\)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+Then, we have
+\[
+-z_{\alpha/2}\le\frac{\sqrt{n}(\overline{X}_n-\mu)}{\widehat{\sigma}}\le z_{\alpha/2}
+\iff
+\mu\in\qty[\overline{X}_n-z_{\alpha/2}\frac{\widehat{\sigma}}{\sqrt{n}},
+\overline{X}_n+z_{\alpha/2}\frac{\widehat{\sigma}}{\sqrt{n}}
+].
+\]
+So, an approximated \(100(1-\alpha)\%\) CI for \(\mu\) is
+\[
+\qty[\overline{X}_n\pm z_{\alpha/2}\frac{\widehat{\sigma}}{\sqrt{n}}]
+\]
+which is a shorthand for \(\displaystyle \qty[\overline{X}_n-z_{\alpha/2}\frac{\widehat{\sigma}}{\sqrt{n}},
+\overline{X}_n+z_{\alpha/2}\frac{\widehat{\sigma}}{\sqrt{n}}]\).
+\end{enumerate}
