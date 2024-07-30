@@ -4,7 +4,7 @@
 \item After studying \emph{probability theory} in STAT2901, we will focus on
 \emph{statistical inference} in STAT3902: \emph{inference based on
 observations}. In this section we will first focus on the \emph{observations} to
-see how we can ``extract'' information from them.
+see how they can be ``explored''.
 \end{enumerate}
 \subsection{Sample of Observations}
 \begin{enumerate}
@@ -67,12 +67,12 @@ cdf, especially if the number of observations \(n\) is large. This is justified
 by the following result:
 \begin{theorem}[Glivenko-Cantelli theorem]
 \label{thm:gilvenko-cantelli}
-Suppose that we have \emph{infinitely many} (unrealized) observations
-\(X_1,X_2,\dotsc\).  For any \(n\in\N\), the vector \((X_1,\dotsc,X_n)\)
-constitutes a sample (of \(n\) observations), and we denote the corresponding
-empirical cdf by \(\widehat{F}_n\). Then, the sequence of empirical cdfs
-\(\{\widehat{F}_{n}\}\) \emph{converges uniformly} to the actual cdf \(F\)
-almost surely (i.e., with probability 1).
+Suppose that we have \emph{infinitely many} i.i.d. (unrealized) observations
+\(X_1,X_2,\dotsc\) to be included in a sample.  For any \(n\in\N\), the vector
+\((X_1,\dotsc,X_n)\) constitutes a sample (of \(n\) observations), and we
+denote the corresponding empirical cdf by \(\widehat{F}_n\). Then, the sequence
+of empirical cdfs \(\{\widehat{F}_{n}\}\) \emph{converges uniformly} to the
+actual cdf \(F\) almost surely (i.e., with probability 1).
 \end{theorem}
 \begin{note}
 Roughly speaking, this suggests that \(\widehat{F}_{n}(x)\) is always within a

@@ -1,0 +1,504 @@
+\section{Point Estimation}
+\label{sect:point-estimation}
+\begin{enumerate}
+\item Starting from here, we will discuss three major kinds of statistical
+inference:
+\begin{itemize}
+\item point estimation (\cref{sect:point-estimation})
+\item interval estimation (\cref{sect:interval-estimation})
+\item hypothesis testing (\cref{sect:hypothesis-testing})
+\end{itemize}
+\item The process of \defn{point estimation} is described as follows:
+\begin{itemize}
+\item Assume that the population (data generating process) is ``controlled'' by
+an unknown ``population parameter'' \(\theta\) (i.e., the distribution of the
+underpinning r.v.\ is parameterized by \(\theta\)).
+\item Given a sample \(\vect{X}=(X_1,\dotsc,X_n)\) collected from the
+population, we then estimate the true parameter \(\theta\) using an \defn{estimator}
+(random variable) based on the sample \(\vect{X}\), denoted by \(\widehat{\theta}\)
+(as a function of \(\vect{X}\)).
+
+\begin{remark}
+\item More generally, we can estimate a \emph{function} of true parameter \(\theta\):
+\(\psi(\theta)\) by an estimator \(T=T(\vect{X})\). (The upcoming
+terminologies/results apply analogously to this general case.)
+\item In general, any function of sample \(\vect{X}\) is called a
+\defn{statistic}. So, \(\widehat{\theta}\) and \(T\) here are both statistics.
+\end{remark}
+\end{itemize}
+\item Here, we will discuss two common approaches to perform point estimation:
+\begin{itemize}
+\item maximum likelihood estimation (MLE)
+\item method of moments
+\end{itemize}
+But before that, let us first investigate what qualifies as a ``good''
+estimator.
+
+\item One major goal of estimation in statistics is to find an estimator with
+``high quality''. But very often we can analyze an estimator in different
+``angles'', and different estimators may be ``better'' in different aspects.
+
+In the following, we will discuss multiple aspects where we can evaluate an
+estimator:
+\begin{itemize}
+\item unbiasedness
+\item efficiency
+\item consistency
+\item sufficiency
+\item completeness
+\end{itemize}
+Based on some of these aspects, we can characterize ``optimal'' estimator in
+certain sense.
+\end{enumerate}
+\subsection{Unbiasedness}
+\begin{enumerate}
+\item Unbiasedness is related to the ``average accuracy'' of an estimator.
+\item We first introduce the concept of \emph{bias}: The \defn{bias} of an
+estimator \(\widehat{\theta}\) (of \(\theta\)) is
+\[
+\operatorname{Bias}(\widehat{\theta})=\expv{\widehat{\theta}}-\theta.
+\]
+\item The estimator \(\widehat{\theta}\) is \defn{unbiased} if
+\(\operatorname{Bias}(\widehat{\theta})=0\), or
+\(\expv{\widehat{\theta}}=\theta\).
+
+\begin{note}
+Roughly speaking, for an \emph{unbiased} estimator, its ``average'' value
+coincides with the true parameter \(\theta\) \faIcon{arrow-right} desirable.
+\end{note}
+
+\item As mentioned in \labelcref{it:asym-stat-infer}, sometimes we are
+interested in the \emph{asymptotic} case. So, even if an estimator is biased,
+we are interested in knowing whether it is unbiased \emph{asymptotically}.
+
+In the asymptotic case, we shall assume that there are infinitely many i.i.d.\
+observations \(X_1,X_2,\dotsc\) to be included in a sample. Here, to be more
+explicit about the dependence of the estimator on the sample
+\((X_1,\dotsc,X_n)\), we express the estimator as
+\(\widehat{\theta}=\widehat{\theta}(X_1,\dotsc,X_n)\), for any \(n\in\N\).
+
+Then, the estimator \(\widehat{\theta}\) is \defn{asymptotically unbiased} if
+\[
+\lim_{n\to \infty}\operatorname{Bias}(\widehat{\theta}(X_1,\dotsc,X_n))=0,
+\]
+or
+\[
+\lim_{n\to \infty}\expv{\widehat{\theta}(X_1,\dotsc,X_n)}=\theta.
+\]
+\end{enumerate}
+\subsection{Efficiency}
+\begin{enumerate}
+\item To motivate the notion of \emph{efficiency}, we first consider the
+following result:
+\begin{proposition}[Bias-variance decomposition]
+\label{prp:bias-var-decomp}
+Given an estimator \(\widehat{\theta}\), its \defn{mean squared error} (MSE) is
+\(\expv{(\widehat{\theta}-\theta)^{2}}\), and we can write the MSE as:
+\[
+\expv{(\widehat{\theta}-\theta)^{2}}=\vari{\widehat{\theta}}+\operatorname{Bias}(\widehat{\theta})^2,
+\]
+assuming all terms involved exist.
+\end{proposition}
+\begin{pf}
+The key idea in the proof is to write
+\[
+(\widehat{\theta}-\theta)^{2}
+=\qty({\color{violet}\widehat{\theta}-\expv{\widehat{\theta}}}+{\color{orange}\expv{\widehat{\theta}}-\theta})^{2}
+={\color{violet}\qty(\widehat{\theta}-\expv{\widehat{\theta}})^2}
++2{\color{violet}\qty(\widehat{\theta}-\expv{\widehat{\theta}})}
+{\color{orange}\qty(\expv{\widehat{\theta}}-\theta)}
++{\color{orange}\qty(\expv{\widehat{\theta}}-\theta)^2}.
+\]
+From this, we can express the MSE as
+\[
+\expv{\qty(\widehat{\theta}-\expv{\widehat{\theta}})^2}
++2\underbrace{\qty(\expv{\widehat{\theta}}-\theta)}_{\text{deterministic}}\underbrace{\expv{\widehat{\theta}-\expv{\widehat{\theta}}}}_{\expv{\widehat{\theta}}-\expv{\widehat{\theta}}=0}
++\qty(\expv{\widehat{\theta}}-\theta)^2
+=\vari{\widehat{\theta}}+\operatorname{Bias}(\widehat{\theta})^2.
+\]
+\end{pf}
+\item Since MSE is measuring ``average'' squared distance between the
+estimator and true parameter \(\theta\), having a \emph{lower} MSE is better
+(``closer'' to the true parameter).
+
+Now, from the bias-variance decomposition, we can observe that to achieve a
+low MSE, we need \emph{both} low variance and low bias. This suggests that
+merely being unbiased is not enough: Having a \emph{low} variance is important
+also!
+
+\begin{note}
+Roughly speaking, variance measures ``average'' \emph{precision} of \(\widehat{\theta}\):
+lower variance = higher precision. As one may expect intuitively, both
+(average) \emph{accuracy} and \emph{precision} matter for an estimator to be
+``good''.
+\end{note}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[xmin=-1, xmax=1, ymin=-1, ymax=1, xtick=\empty, ytick=\empty,
+title={Low bias \& low variance}, axis lines=middle]
+\addplot [blue, only marks, mark=x] table {
+0 0.01
+0.01 0.02
+0 0.03
+0.02 0.04
+0 0.05
+-0.03 0.06
+0 -0.03
+0.02 -0.04
+-0.06 0.05
+-0.06 -0.05
+-0.1 -0.07
+};
+\draw[red, fill] (0,0) circle [radius=1mm];
+\end{axis}
+\end{tikzpicture}
+\begin{tikzpicture}
+\begin{axis}[xmin=-1, xmax=1, ymin=-1, ymax=1, xtick=\empty, ytick=\empty,
+title={High bias \& low variance}, axis lines=middle]
+\addplot [blue, only marks, mark=x] table {
+0.5 0.6
+0.51 0.42
+0.5 0.53
+0.62 0.54
+0.48 0.65
+0.53 0.46
+0.5 0.53
+0.52 0.44
+0.56 0.65
+0.6 0.55
+0.6 0.47
+};
+\draw[red, fill] (0,0) circle [radius=1mm];
+\end{axis}
+\end{tikzpicture}
+\begin{tikzpicture}
+\begin{axis}[xmin=-1, xmax=1, ymin=-1, ymax=1, xtick=\empty, ytick=\empty,
+title={Low bias \& high variance}, axis lines=middle]
+\addplot [blue, only marks, mark=x] table {
+0.5 -0.5
+0.31 0.2
+-0.4 0.3
+-0.2 -0.4
+0.6 0.5
+-0.3 0.6
+0.5 0.35
+-0.29 0.4
+-0.6 0.5
+-0.7 0.05
+0.8 -0.7
+};
+\draw[red, fill] (0,0) circle [radius=1mm];
+\end{axis}
+\end{tikzpicture}
+\begin{tikzpicture}
+\begin{axis}[xmin=-1, xmax=1, ymin=-1, ymax=1, xtick=\empty, ytick=\empty,
+title={High bias \& high variance}, axis lines=middle]
+\addplot [blue, only marks, mark=x] table {
+0.5 0.5
+0.31 0.2
+0.4 0.3
+0.2 -0.1
+0.6 -0.2
+0.1 0.6
+0.5 0.35
+0.29 -0.4
+0.6 0.9
+0.7 -0.05
+0.8 0.7
+};
+\draw[red, fill] (0,0) circle [radius=1mm];
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\item The concept of \emph{efficiency} is related to the \emph{variance} of
+estimator. Consider two estimators \(\widehat{\theta}_1\) and
+\(\widehat{\theta}_2\). The \defn{efficiency} of \(\widehat{\theta}_1\) with
+respect to \(\widehat{\theta}_2\) is
+\[
+\operatorname{Eff}(\widehat{\theta}_1,\widehat{\theta}_2)=\frac{\vari{\widehat{\theta}_2}}{\vari{\widehat{\theta}_1}}.
+\]
+When \(\operatorname{Eff}(\widehat{\theta}_1,\widehat{\theta}_2)>1\) (i.e.,
+\(\vari{\widehat{\theta}_1}<\vari{\widehat{\theta}_2}\)), the estimator
+\(\widehat{\theta}_1\) is said to be \defn{relatively more efficient} (i.e.,
+having a lower variance; ``better'' in efficiency) than \(\widehat{\theta}_2\).
+
+\item When the two estimators in comparison are both unbiased, the one which is
+relatively more efficient (having a lower variance) would have a lower MSE
+\faIcon{arrow-right} better. Consequently, if we focus only on unbiased
+estimators, estimator with the \emph{minimum variance} is \emph{optimal} (in
+MSE sense).
+
+More precisely, an estimator \(\widehat{\theta}\) (of \(\theta\)) is called
+\defn{uniformly minimum variance unbiased estimator} (UMVUE) if it has the
+minimum variance among \emph{all} unbiased estimators of \(\theta\), for any possible value of \(\theta\).
+
+\begin{remark}
+\item Note that the minimum variance requirement needs to be satisfied for any
+possible value of \(\theta\), not just some specific values
+\faIcon{arrow-right} hence ``uniformly''.
+\item UMVUE characterizes the optimal \emph{unbiased} estimator in MSE sense
+\faIcon{arrow-right} it is a very ``good'' estimator.
+\item It turns out that if UMVUE exists, then it must be \emph{unique} (in
+almost sure sense, i.e., any two UMVUEs are equal with probability 1).
+\end{remark}
+\end{enumerate}
+\subsection{Consistency}
+\begin{enumerate}
+\item The concept of \emph{consistency} is again related to an asymptotic
+setting. Like before, we assume that there are infinitely many i.i.d.\
+observations \(X_1,X_2,\dotsc\) to be included in a sample, and we express the
+estimator as \(\widehat{\theta}=\widehat{\theta}(X_1,\dotsc,X_n)\), for any
+\(n\in\N\).
+
+\item The estimator \(\widehat{\theta}\) is \defn{consistent} if
+\[
+\left\{\widehat{\theta}(X_1,\dotsc,X_n)\right\}\convp \theta.
+\]
+\begin{note}
+This roughly means the estimator can be very close to the true parameter
+\(\theta\) with very high probability, when the sample size is sufficiently
+large.
+\end{note}
+\end{enumerate}
+\subsection{Sufficiency and Likelihood}
+\begin{enumerate}
+\item Given a sample \(\vect{X}\), a statistic \(T=T(\vect{X})\) can
+\emph{summarize} the information given by the sample, which can be convenient
+especially if the sample size is very large. However, some information may be
+\emph{lost} during the summarization process.
+
+\item For a ``nice'' statistic \(T\), it should carry all ``relevant''
+information, and this is related to the concept of \emph{sufficiency}.
+
+A statistic \(T=T(\vect{X})\) is \defn{sufficient for \(\theta\)} if the
+conditional distribution of \(\vect{X}\) given \(T\) is \emph{free of \(\theta\)}.
+
+\begin{note}
+Loosely speaking, this means \(T\) already carries all information contained in
+the sample \(\vect{X}\) that is relevant to \(\theta\) (``sufficient''
+information). So when it is conditioned on, we already ``completely know''
+\(\theta\) \faIcon{arrow-right} no appearance of unknown \(\theta\) in
+distribution anymore (free of \(\theta\)).
+\end{note}
+
+\item Although this definition is quite intuitive, it is not very friendly to
+be directly used for proving sufficiency. Usually, we use the
+\emph{factorization criterion} for proving sufficiency instead. But before
+stating the result, let us first introduce the concept of \emph{likelihood},
+which will be used in the factorization criterion.
+
+\item The \defn{likelihood function} of \(\theta\) given \(\vect{X}\) is given
+by
+\[\lik{\vect{X}}{\theta}=f(\vect{X}|\theta)\]
+where \(f(\cdot|\theta)\) is the joint probability function of \(\vect{X}\).
+
+\begin{remark}
+\item Here \(\lik{\vect{X}}{\theta}\) is \emph{unrealized} and is a random variable.
+It takes the value \(\lik{\vect{x}}{\theta}=f(\vect{x}|\theta)\) (likelihood
+function of \(\theta\) given \(\vect{X}=\vect{x}\)) when \(\vect{X}=\vect{x}\)
+is realized.
+\item The likelihood function \(\lik{\vect{X}}{\theta}\) (function of
+\(\theta\)) measures the ``likelihood'' of each \(\theta\) being the
+\emph{true} parameter for the population that generates the sample \(\vect{X}\)
+we have.
+\item The \defn{log-likelihood function} is the natural log of likelihood
+function: \(\ln\lik{\vect{X}}{\theta}\).
+\end{remark}
+
+\item The factorization criterion is as follows:
+\begin{theorem}[Factorization criterion]
+\label{thm:fact-criterion}
+A statistic \(T=T(\vect{X})\) is sufficient for \(\theta\) iff there exists a
+function \(g\) such that \(\lik{\vect{X}}{\theta}\propto g(T(\vect{X}),
+\theta)\) for any sample \(\vect{X}\).
+\end{theorem}
+\begin{note}
+``\(\propto\)'' means ``is proportional to'' (where sample \(\vect{X}\)
+is treated as ``constant''). Here, \(\lik{\vect{X}}{\theta}\propto
+g(T(\vect{X}), \theta)\) means
+\[
+\lik{\vect{X}}{\theta}=g(T(\vect{X}), \theta)h(\vect{X})
+\]
+for some function \(h\) (factorization).
+\end{note}
+
+\item If a statistic \(T\) is sufficient for \(\theta\), then \(u(T)\) is
+sufficient for \(\theta\) also, where \(u\) is any \emph{injective} function.
+
+\begin{intuition}
+When the statistic \(T\) carries all ``relevant'' information, applying an
+\emph{injective} function \(u\) to \(T\) should not lead to any loss in
+information, so \(u(T)\) should also carry all ``relevant''
+information.\footnote{The same thing cannot be said when the function \(u\) is
+not injective. For example, if \(u\) is zero function (mapping every input to
+zero), then basically all information carried in \(T\) is lost.}
+\end{intuition}
+
+\item An application of sufficient statistics is suggested as follows.
+\begin{theorem}[Rao-Blackwell theorem]
+\label{thm:rao-blackwell}
+Let \(\widehat{\theta}\) be an unbiased estimator of \(\theta\), and
+\(T=T(\vect{X})\) be a sufficient statistic of \(\theta\). Suppose that
+\(\expv{\widehat{\theta}^{2}}\) is finite. Then,
+\(\widehat{\theta}_*=\expv{\left.\widehat{\theta}\right|T}\) is also unbiased
+with
+\[
+\vari{\widehat{\theta}_*}\le \vari{\widehat{\theta}}.
+\]
+\end{theorem}
+\begin{note}
+This means taking conditional expectation on \emph{any} unbiased estimator
+given a \emph{sufficient} statistic yields a better (or at least not worse)
+unbiased estimator.
+\end{note}
+\end{enumerate}
+\subsection{Completeness}
+\begin{enumerate}
+\item Completeness is another concept that describes a statistic. A statistic
+\(T=T(\vect{X})\) is \defn{complete for \(\theta\)} if for any function \(g\)
+free of \(\theta\), 
+\[
+\E_{\theta}[g(T(\vect{X}))]=0\quad\forall \theta
+\implies
+\mathbb{P}_{\theta}(g(T(\vect{X}))=0)=1\quad\forall \theta.
+\]
+\begin{remark}
+\item \(\E_{\theta}[\cdot]\) and \(\mathbb{P}_{\theta}(\cdot)\) respectively
+denote expectation operator and probability measure where the parameter
+\(\theta\) is used for calculations (true parameter is \(\theta\)). These
+notations are used for emphasizing the parameter used in calculations.
+\item This means that an unbiased estimator of 0 (0 is a function of true
+parameter \(\theta\)) \emph{that is a function of the complete statistic \(T\)}
+can only possibly be a function that equals zero with probability 1 (``almost
+surely zero function''), for any true parameter \(\theta\).\footnote{The
+condition ``free of \(\theta\)'' is to ensure that applying the function \(g\)
+results in a \emph{legitimate} estimator that does not use an \emph{unknown}
+parameter!}
+\end{remark}
+\item A main result that utilizes both \emph{sufficiency} and
+\emph{completeness} is the \emph{Lehmann-Scheff\'{e}} theorem:
+\begin{theorem}[Lehmann-Scheff\'{e} theorem]
+\label{thm:lehmann-scheffe}
+Let \(T=T(\vect{X})\) be a \emph{complete} and \emph{sufficient} statistic of
+\(\theta\). Suppose that \(g(T)\) is an unbiased estimator for \(\psi(\theta)\)
+where \(g\) and \(\psi\) are functions.  Then, \(g(T)\) is the UMVUE of
+\(\psi(\theta)\).
+\end{theorem}
+\item Given a complete and sufficient statistic \(T\), we can set
+\(g(T)=\expv{Y|T}\) where \(Y\) is any unbiased estimator for \(\psi(\theta)\),
+which is an unbiased estimator of \(\psi(\theta)\)\footnote{We have
+\(\expv{g(T)}=\expv{\expv{Y|T}}=\expv{Y}=\psi(\theta)\).}. Then, by
+Lehmann-Scheff\'{e} theorem, \(\expv{Y|T}\) is the UMVUE of \(\psi(\theta)\).
+
+\begin{note}
+This method always results in the unique UMVUE, regardless of the choice of
+\(Y\).
+\end{note}
+\end{enumerate}
+\subsection{Cramer-R\'{a}o Inequality}
+\begin{enumerate}
+\item \emph{Cramer-R\'{a}o inequality} provides another method for finding
+UMVUE. Before stating the inequality, we first introduce some terminologies.
+
+\item The \defn{score function} is the partial derivative of log-likelihood
+function with respect to \(\theta\):
+\[
+S_{\vect{X}}(\theta)=\pdv{\ln\lik{\vect{X}}{\theta}}{\theta}.
+\]
+\begin{note}
+When score function takes extreme value, it indicates that the shape of
+log-likelihood function varies sharply for different \(\theta\)
+(``likelihoods'' for different \(\theta\) have clear difference)
+\faIcon{arrow-right} easy to deduce \(\theta\) based on a sample (the sample
+``carries'' rich information about \(\theta\)).
+\end{note}
+\item The \defn{Fisher information} is the variance of score function:
+\(I(\theta)=\vari{S_{\vect{X}}(\theta)}\).
+
+\begin{remark}
+\item When the variance of score function is high, score function tends to take
+more extreme values \faIcon{arrow-right} the sample carries more information
+about \(\theta\) \faIcon{arrow-right} Fisher information measures information
+about \(\theta\) carried by sample.
+
+\item Usually \(\expv{S_{\vect{X}}(\theta)}=0\), and we can write
+\(I(\theta)=\expv{(S_{\vect{X}}(\theta))^2}\) in this case.
+\end{remark}
+\item Now we are ready to state the Cram\'{e}r-Rao inequality:
+\begin{theorem}[Cram\'{e}r-Rao inequality]
+\label{thm:cramer-rao-ineq}
+Let \(\psi(\theta)\) be a differentiable function of \(\theta\), and
+\(T=T(\vect{X})\) be an unbiased estimator of \(\psi(\theta)\). Suppose that
+the support of common distribution of observations in \(\vect{X}\) is free of
+\(\theta\). Then,
+\[
+\vari{T}\ge\frac{\psi'(\theta)}{I(\theta)},
+\]
+where the RHS is known as \defn{Cram\'{e}r-Rao lower bound} (CRLB).
+\end{theorem}
+\begin{note}
+This result suggests that an unbiased estimator \(T^*\) with variance being
+CRLB must be the UMVUE of \(\psi(\theta)\) (since it has the least variance
+among all unbiased estimators), assuming the support is free of \(\theta\).
+\end{note}
+\end{enumerate}
+\subsection{Maximum Likelihood Estimation and Method of Moments}
+\begin{enumerate}
+\item \defn{Maximum likelihood estimator} (mle) \(\widehat{\theta}\) of
+\(\theta\) is \emph{maximizer} of the likelihood function
+\(\lik{\vect{X}}{\theta}\) (or equivalently, the log-likelihood function
+\(\ln\lik{\vect{X}}{\theta}\)).
+
+\begin{note}
+To find the mle, standard optimization technique can be used. In some ``nice''
+cases, the mle is the solution to
+\[
+\dv{\ln\lik{\vect{X}}{\theta}}{\theta}=0
+\]
+when \(\theta\in\R\), or 
+\[
+\pdv{\ln\lik{\vect{X}}{\theta_1}}{\theta_1}=\dotsb=\pdv{\ln\lik{\vect{X}}{\theta_k}}{\theta_k}=0
+\]
+when \(\theta=(\theta_1,\dotsc,\theta_k)\in\R^k\).
+\end{note}
+\item For method of moments, we first let \(\mu_k\) be the \(k\)th moment of
+the random variable \(X\) underpinning the population: \(\expv{X^k}\), and
+\(m_k\) be the \(k\)th \emph{sample} moment: \(m_k=\frac{1}{n}\sum_{i=1}^{n}X_i^{k}\).
+
+Now, assume \(\theta=h(\mu_1,\dotsc,\mu_p)\) for some function \(h\). Then,
+\defn{method of moments estimator} (mme) of \(\theta\) is
+\[
+\widehat{\theta}=h(m_1,\dotsc,m_p).
+\]
+\begin{note}
+The method of moments estimator is \emph{not} unique, since the function \(h\)
+is not unique (there can be multiple ways to express \(\theta\) in terms of
+moments).
+\end{note}
+\end{enumerate}
+\subsection{Asymptotic Properties of MLE}
+\begin{enumerate}
+\item It turns out that MLE possesses some nice \emph{asymptotic} properties.
+So, we consider the asymptotic case here again. Likewise, suppose that there
+are infinitely many observations \(X_1,X_2,\dotsc\) to be included in a sample,
+and let \(\widehat{\theta}=\widehat{\theta}(X_1,\dotsc,X_n)\) be mle of
+\(\theta\) based on the sample \((X_1,\dotsc,X_n)\) (i.e., this sample is used
+in the underlying likelihood function).
+
+\item \label{it:mle-asym-prop}
+Now, under certain regularity conditions,
+\begin{enumerate}
+\item \(\widehat{\theta}\) is consistent for \(\theta\);
+\item \(\displaystyle \left\{\frac{\widehat{\theta}(X_1,\dotsc,X_n)-\theta}{\sqrt{1/I(\theta)}}\right\}\convd Z\) where \(Z\sim N(0,1)\),
+\end{enumerate}
+assuming \(I(\theta)\) exists.
+
+\begin{note}
+This suggests that when \(n\) is large, \(\widehat{\theta}(X_1,\dotsc,X_n)\)
+is \emph{approximately} normally distributed with mean \(\theta\) and variance \(1/I(\theta)\) (CRLB)
+\faIcon{arrow-right} ``approximately'' UMVUE. This provides some theoretical
+support on using maximum likelihood estimation.
+\end{note}
+\end{enumerate}
+
