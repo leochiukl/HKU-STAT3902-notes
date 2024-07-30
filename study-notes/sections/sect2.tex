@@ -1,0 +1,160 @@
+\section{Convergence}
+\label{sect:convergence}
+\begin{enumerate}
+\item In statistical inference, sometimes we are interested in the
+\emph{asymptotic} behaviour of the observations in the sample when the sample
+size \(n\to\infty\). Thus, we are interested in studying different \emph{modes}
+in which a sequence of random variables (or observations in the context of
+statistical inference) \(\{X_n\}\) ``converges''.
+\end{enumerate}
+\subsection{Modes of Convergence}
+\begin{enumerate}
+\item Consider a sequence of r.v.'s \(\{X_n\}\). Here we introduce \emph{four
+modes} in which the sequence can converge:
+\begin{itemize}
+\item convergence in probability
+\item convergence in distribution
+\item almost sure convergence
+\item mean square convergence
+\end{itemize}
+\item The sequence \(\{X_n\}\) \defn{converges in probability} to a r.v.\ \(X\)
+(denoted by \(\{X_n\}\convp X\)) if for any \(\varepsilon>0\),
+\[
+\lim_{n\to \infty}\prob{|X_n-X| >\varepsilon}=0.
+\]
+\begin{note}
+Roughly, this means when \(n\) is large, it is of \emph{very high probability}
+that \(X_n\) is \emph{very close to} \(X\) (their difference is less than a
+specified constant \(\varepsilon\)).
+\end{note}
+
+\item The sequence \(\{X_n\}\) \defn{converges in distribution} to a r.v.\ \(X\)
+(denoted by \(\{X_n\}\convd X\)) if
+\[
+\lim_{n\to \infty}\widehat{F}_{n}(x)=F(x)
+\]
+for any \(x\) at which the cdf \(F\) is continuous.
+
+\begin{note}
+Roughly, this means when \(n\) is large, the empirical cdf
+\(\widehat{F}_{n}(x)\) is very close to \(F(x)\) (at least for those ``nice''
+\(x\)).
+\end{note}
+
+\item The sequence \(\{X_n\}\) \defn{converges almost surely} to a r.v.\ \(X\)
+(denoted by \(\{X_n\}\convas X\)) if
+\[
+\prob{\lim_{n\to \infty}X_n=X}
+=\prob{\qty{\omega\in\Omega:\lim_{n\to \infty}X_n(\omega)=X(\omega)}}
+=1.
+\]
+
+\begin{note}
+Roughly, this means we are \emph{very sure} that the sequence \(\{X_n\}\)
+converges (``exactly'', not just ``in probability'') to \(X\).
+\end{note}
+
+\item The sequence \(\{X_n\}\) \defn{converges in mean square} to a r.v.\ \(X\)
+(denoted by \(\{X_n\}\convms X\)) if
+\[
+\lim_{n\to \infty}\expv{|X_n-X|^2}=0.
+\]
+\begin{note}
+Roughly, this means when \(n\) is large, the mean squared distance between
+\(X_n\) and \(X\) is \emph{very close to} zero.
+\end{note}
+
+\item \label{it:conv-implications}
+We have the following relationship between different modes of
+convergences:
+\begin{center}
+\begin{tikzpicture}
+\node[] (cas) at (-2,1.5) {\(\{X_n\}\convas X\)};
+\node[] (cms) at (-2,-1.5) {\(\{X_n\}\convms X\)};
+\node[] (cp) at (0,0) {\(\{X_n\}\convp X\)};
+\node[] (cd) at (3,0) {\(\{X_n\}\convd X\)};
+\node[] () at (1.5,-0.1) {\(\implies\)};
+\node[rotate=-45] () at (-1,0.7) {\(\implies\)};
+\node[rotate=45] () at (-1,-0.7) {\(\implies\)};
+\end{tikzpicture}
+\end{center}
+\end{enumerate}
+
+\subsection{Some Theorems for Convergence}
+\begin{enumerate}
+\item Here we will introduce several theorems related to different modes of
+convergence:
+\begin{itemize}
+\item Slutsky's theorem
+\item continuous mapping theorem
+\item weak law of large numbers
+\item strong law of large numbers
+\item central limit theorem (famous!)
+\end{itemize}
+\item Slutsky's theorem suggests arithmetic properties of sequences convergent
+in some modes.
+\begin{theorem}[Slutsky's theorem]
+\label{thm:slutsky-thm}
+Let \(\{X_n\}\) and \(\{Y_n\}\) be two sequences of random variables.
+Suppose \(\{X_n\}\convd X\) and \(\{Y_n\}\convp c\) where \(X\) is a random
+variable and \(c\) is a constant. Then,
+\begin{enumerate}
+\item \(\{X_n+Y_n\}\convd X+c\)
+\item \(\{X_n-Y_n\}\convd X-c\)
+\item \(\{X_nY_n\}\convd Xc\)
+\item \(\{X_n/Y_n\}\convd X/c\).
+\end{enumerate}
+Also, the result still holds when \emph{every} ``\(\convd\)'' gets replaced by
+``\(\convp\)''.
+\end{theorem}
+\begin{warning}
+Note that in the condition we have \(\{Y_n\}\convp c\) where \(c\) is a
+\emph{constant}. When the constant gets replaced by a random variable, the
+result may not hold anymore.
+\end{warning}
+\item Continuous mapping theorem suggests that applying continuous function
+preserves convergence for some modes.
+\begin{theorem}[Continuous mapping theorem]
+\label{thm:cts-mapping-thm}
+Let \(\{X_n\}\) be a sequence of random variables and \(X\) be a random variable.
+Then, for any continuous function \(g\),
+\[
+\{X_n\}\overset{*}\to X\implies
+\{g(X_n)\}\overset{*}\to g(X)
+\]
+where ``*'' is ``\(d\)'', ``\(p\)'', or ``a.s.'' (the modes of convergence at LHS
+and RHS should be the same).
+\end{theorem}
+\item Weak and strong laws of large numbers (LLN) concern the asymptotic behaviour of
+a sequence of \emph{sample means}: It connects \emph{sample} mean and
+\emph{theoretical} mean (mathematical expectation).
+\begin{theorem}[Weak and strong laws of large numbers]
+\label{thm:weak-strong-lln}
+Let \(\{X_n\}\) be a sequence of i.i.d.\ random variables with \emph{finite mean}
+\(\mu\). Define the \defn{sample mean} \(\overline{X}_n\) by \(
+\frac{1}{n}\sum_{i=1}^{n}X_i\), for any \(n\in\N\). Then,
+\begin{enumerate}
+\item (weak LLN) \(\{\overline{X}_n\}\convp\mu\);
+\item (strong LLN) \(\{\overline{X}_n\}\convas\mu\).
+\end{enumerate}
+\end{theorem}
+\begin{note}
+Since almost sure convergence implies convergence in probability, strong LLN
+implies weak LLN, as one may expect. (But one can prove weak LLN without
+appealing to strong LLN.)
+\end{note}
+\item The famous \emph{central limit theorem} suggests that sample mean is
+approximately normally distributed when \(n\) is large under certain conditions
+\faIcon{arrow-right} \emph{normal distribution} appears frequently in
+statistical inference.
+\begin{theorem}[Central limit theorem]
+\label{thm:clt}
+Let \(\{X_n\}\) be a sequence of i.i.d.\ random variables with \emph{finite
+mean} \(\mu\) and \emph{finite variance} \(\sigma^2\). Consider the sample mean
+\(\overline{X}_n=\frac{1}{n}\sum_{i=1}^{n}X_i\) for any \(n\in\N\). Then,
+\[
+\left\{\frac{\sqrt{n}(\overline{X}_n-\mu)}{\sigma}\right\}\convd Z
+\]
+where \(Z\sim N(0,1)\) is a standard normal random variable.
+\end{theorem}
+\end{enumerate}
