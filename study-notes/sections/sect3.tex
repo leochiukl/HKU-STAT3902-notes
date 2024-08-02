@@ -15,11 +15,12 @@ an unknown ``population parameter'' \(\theta\) (i.e., the distribution of the
 underpinning r.v.\ is parameterized by \(\theta\)).
 
 \begin{note}
-In this notes we shall assume that \(\theta\) is an unknown \emph{deterministic
-constant}. Statistical inference under this assumption is known as
-\defn{frequentist inference}.  For statistical inference that assumes
-\(\theta\) is an unknown \emph{random variable}, it is called \defn{Bayesian
-inference} (which will not be discussed here).
+In this notes we shall assume that \(\theta\) is
+\emph{deterministic }. Statistical inference under this assumption
+is known as \defn{frequentist inference}.  For statistical
+inference that assumes \(\theta\) is an unknown \emph{random
+variable}, it is called \defn{Bayesian inference} (which will not
+be discussed here).
 \end{note}
 
 \item Given a sample \(\vect{X}=(X_1,\dotsc,X_n)\) collected from the
@@ -35,6 +36,19 @@ terminologies/results apply analogously to this general case.)
 \defn{statistic}. So, \(\widehat{\theta}\) and \(T\) here are both statistics.
 \end{remark}
 \end{itemize}
+\begin{center}
+\begin{tikzpicture}
+\node[draw, violet] () at (0,0.6) {data generating process};
+\node[font=\large, violet] () at (0,0) {parameter: \(\theta\)};
+\draw[violet] (-4,1) rectangle (4,-1);
+\node[violet, draw] () at (0,1.5) {population};
+\draw[-Latex, very thick] (-0.2,-0.3) -- (-0.2,-1.7)
+node[pos=0.6, left=0.3cm]{generate \faIcon{copy}};
+\node[violet!80!white] () at (0,-2) {\(\vect{X}\)};
+\draw[blue, -Latex, very thick] (0.2,-1.7) -- (0.2,-0.3)
+node[pos=0.6, right=0.3cm]{estimate};
+\end{tikzpicture}
+\end{center}
 \item Here, we will discuss two common approaches to perform point estimation:
 \begin{itemize}
 \item maximum likelihood estimation (MLE)
@@ -280,7 +294,7 @@ especially if the sample size is very large. However, some information may be
 \item For a ``nice'' statistic \(T\), it should carry all ``relevant''
 information, and this is related to the concept of \emph{sufficiency}.
 
-A statistic \(T=T(\vect{X})\) is \defn{sufficient for \(\theta\)} if the
+A statistic \(T=T(\vect{X})\) is \defn{sufficient} for \(\theta\) if the
 conditional distribution of \(\vect{X}\) given \(T\) is \emph{free of \(\theta\)}.
 
 \begin{note}
@@ -365,15 +379,15 @@ unbiased estimator.
 \subsection{Completeness}
 \begin{enumerate}
 \item Completeness is another concept that describes a statistic. A statistic
-\(T=T(\vect{X})\) is \defn{complete for \(\theta\)} if for any function \(g\)
+\(T=T(\vect{X})\) is \defn{complete} for \(\theta\) if for any function \(g\)
 free of \(\theta\), 
 \[
-\E_{\theta}[g(T(\vect{X}))]=0\quad\forall \theta
+\expvtheta{g(T(\vect{X}))}=0\quad\forall \theta
 \implies
-\mathbb{P}_{\theta}(g(T(\vect{X}))=0)=1\quad\forall \theta.
+\probtheta{g(T(\vect{X}))=0}=1\quad\forall \theta.
 \]
 \begin{remark}
-\item \(\E_{\theta}[\cdot]\) and \(\mathbb{P}_{\theta}(\cdot)\) respectively
+\item \(\expvtheta{\cdot}\) and \(\probtheta{\cdot}\) respectively
 denote expectation operator and probability measure where the parameter
 \(\theta\) is used for calculations (true parameter is \(\theta\)). These
 notations are used for emphasizing the parameter used in calculations.
@@ -490,7 +504,7 @@ moments).
 \begin{enumerate}
 \item It turns out that MLE possesses some nice \emph{asymptotic} properties.
 So, we consider the asymptotic case here again. Likewise, suppose that there
-are infinitely many observations \(X_1,X_2,\dotsc\) to be included in a sample,
+are infinitely many i.i.d.\ observations \(X_1,X_2,\dotsc\) to be included in a sample,
 and let \(\widehat{\theta}=\widehat{\theta}(X_1,\dotsc,X_n)\) be mle of
 \(\theta\) based on the sample \((X_1,\dotsc,X_n)\) (i.e., this sample is used
 in the underlying likelihood function).

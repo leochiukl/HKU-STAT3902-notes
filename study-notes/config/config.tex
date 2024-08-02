@@ -19,6 +19,7 @@
 \usepackage{xfp}
 \usepackage{tikz}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{todonotes}
 \usepackage{cleveref}
 
 \usetikzlibrary{arrows.meta}
@@ -33,13 +34,11 @@
 \usetikzlibrary{tikzmark}
 \usepgfplotslibrary{fillbetween}
 
-\newcommand*{\prob}[1]{\mathbb{P}\qty(#1)}
 \newcommand*{\defn}[1]{\index[def]{#1}\textcolor{ForestGreen}{\textbf{#1}}}
 \newcommand*{\bu}[1]{\textbf{\underline{#1}}}
 \newcommand*{\eqd}{\overset{d}=}
 \newcommand*{\apxsim}{\overset{\text{approx.}}\sim}
 \newcommand*{\ystar}{\textcolor{yellow}{\faIcon{star}}}
-\newcommand*{\expv}[1]{\mathbb{E}\qty[#1]}
 \newcommand*{\indicset}[1]{\mathbf{1}_{\left\{#1\right\}}}
 \newcommand*{\vari}[1]{\operatorname{Var}\qty(#1)}
 \newcommand*{\cov}[1]{\operatorname{Cov}\qty(#1)}
@@ -56,6 +55,10 @@
 \newcommand*{\R}{\mathbb{R}}
 \newcommand*{\E}{\mathbb{E}}
 \newcommand*{\warn}{\textcolor{red}{\faIcon{exclamation-triangle}}}
+\newcommand*{\prob}[1]{\mathbb{P}\qty(#1)}
+\newcommand*{\expv}[1]{\mathbb{E}\qty[#1]}
+\newcommand*{\probtheta}[1]{\mathbb{P}_{\theta}\qty(#1)}
+\newcommand*{\expvtheta}[1]{\mathbb{E}_{\theta}\qty[#1]}
 
 \newenvironment{remark}{\sffamily \underline{Remarks}:\begin{itemize}}{\end{itemize}}
 \newenvironment{note}{\sffamily\lbrack Note:}{\!\!\rbrack}
@@ -94,4 +97,7 @@
     \endgroup
   }
 }
+%avoid tikzexternalize for todonotes
+\renewcommand{\todo}[2][]{\tikzexternaldisable\@todo[#1]{#2}\tikzexternalenable}
+\renewcommand{\missingfigure}[2][]{\tikzexternaldisable\@missingfigure[#1]{#2}\tikzexternalenable}
 \makeatother
