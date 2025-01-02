@@ -9,12 +9,11 @@ see how they can be ``explored''.
 \subsection{Sample of Observations}
 \begin{enumerate}
 \item Much of statistical inference is based on the idea of a \emph{sample}.
-Consider a ``population random variable'' \(X\) with cdf \(F(x)\). Then, a
+Consider a ``population random variable'' \(X\) with a cdf \(F\). Then, a
 (random) \defn{sample} of \(n\) (unrealized) observations from the population
 is a vector of \(n\) \emph{random variables}: \((X_1,\dotsc,X_n)\) where
-\[
-X_1,\dotsc,X_n\iid F(x).
-\]
+\(X_1,\dotsc,X_n\) are independent and identically distributed with the common
+cdf \(F\), denoted by \(X_1,\dotsc,X_n\iid F\).
 \begin{center}
 \begin{tikzpicture}
 \node[draw, violet] () at (0,0.6) {data generating process};

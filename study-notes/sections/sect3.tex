@@ -314,7 +314,8 @@ which will be used in the factorization criterion.
 \item The \defn{likelihood function} of \(\theta\) given \(\vect{X}\) is given
 by
 \[\lik{\vect{X}}{\theta}=f(\vect{X}|\theta)\]
-where \(f(\cdot|\theta)\) is the joint probability function of \(\vect{X}\).
+where \(f(\cdot|\theta)\) is the joint probability function of \(\vect{X}\)
+with parameter \(\theta\).
 
 \begin{remark}
 \item Here \(\lik{\vect{X}}{\theta}\) is \emph{unrealized} and is a random variable.
@@ -481,7 +482,7 @@ cases, the mle is the solution to
 \]
 when \(\theta\in\R\), or 
 \[
-\pdv{\ln\lik{\vect{X}}{\theta_1}}{\theta_1}=\dotsb=\pdv{\ln\lik{\vect{X}}{\theta_k}}{\theta_k}=0
+\pdv{\ln\lik{\vect{X}}{\theta}}{\theta_1}=\dotsb=\pdv{\ln\lik{\vect{X}}{\theta}}{\theta_k}=0
 \]
 when \(\theta=(\theta_1,\dotsc,\theta_k)\in\R^k\).
 \end{note}
